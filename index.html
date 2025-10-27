@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 
+      REPLACE THIS: Change "[Name]" to your girlfriend's name!
+    --><title>Happy Birthday, Tiyasa!</title>
+    
+    <!-- Tailwind CSS for styling --><script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Playfair Display for headings, Inter for body --><link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Playfair+Display:wght~700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fce7f3; /* Lighter pink base */
+            background-image: radial-gradient(#ffffff 1.1px, transparent 1.1px), radial-gradient(#ffffff 1.1px, #fce7f3 1.1px);
+            background-size: 44px 44px;
+            background-position: 0 0, 22px 22px;
+            color: #9d174d; /* Deep rose text */
+            perspective: 1000px; /* For 3D transformations */
+            overflow-x: hidden; /* Prevent horizontal scroll from poppers */
+        }
+
+        .font-fancy {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Fade-in animation for sections */
+        .fade-in {
+            animation: fadeIn 1.5s ease-out forwards;
+            opacity: 0;
+        }
+        .fade-in-item {
+            animation: fadeInItem 0.5s ease-out forwards;
+            opacity: 0;
+        }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        .delay-4 { animation-delay: 0.8s; }
+        .delay-5 { animation-delay: 1.0s; }
+        .delay-6 { animation-delay: 1.2s; } 
+
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInItem {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Modal styles (same as before) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: auto;
+            max-width: 90vw;
+            max-height: 90vh;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 12px;
+        }
+        .modal-caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            position: absolute;
+            bottom: 3vh;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.1rem;
+        }
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .modal-close:hover,
+        .modal-close:focus {
+            color: #bbb;
+            text-decoration: none;
+        }
+
+        /* New SVG Cake Styles */
+        .cake-svg-container {
+            position: relative;
+            width: 100%;
+            max-width: 320px; /* Max size of the cake (Made smaller) */
+            margin: 0 auto; /* Removed top/bottom margin for more compactness */
+            padding-top: 100%; /* 1:1 Aspect Ratio (maintains 320x320 max) */
+            cursor: pointer;
+            user-select: none;
+        }
+        .cake-svg-container svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Candle Flame (SVG Path) */
+        .candle-flame {
+            fill: url(#flameGradient);
+            animation: flicker 0.2s infinite alternate;
+            transform-origin: center bottom;
+            opacity: 1;
+            transition: opacity 0.3s ease-out;
+            filter: blur(0.5px);
+        }
+        .candle-flame.extinguished {
+            opacity: 0;
+        }
+        @keyframes flicker {
+            0% { transform: scaleY(1) scaleX(1); }
+            50% { transform: scaleY(1.05) scaleX(0.95); }
+            100% { transform: scaleY(0.98) scaleX(1.02); }
+        }
+
+        /* Confetti animation */
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 100;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #f7a0b8; /* Pink */
+            opacity: 0;
+            animation: confetti-fall 4s ease-out forwards; /* Longer duration */
+            border-radius: 50%;
+        }
+        .confetti-piece:nth-child(even) {
+            background-color: #fff; /* White */
+            border-radius: 0;
+        }
+        .confetti-piece:nth-child(3n) {
+            background-color: #f06292; /* Darker pink */
+            transform: rotate(45deg);
+        }
+        @keyframes confetti-fall {
+            0% {
+                transform: translate(var(--x-start), var(--y-start)) rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translate(var(--x-start), var(--y-start)) rotate(var(--rot-start)) scale(1);
+            }
+            100% {
+                transform: translate(var(--x-end), var(--y-end)) rotate(var(--rot-end)) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Parallax effect for hero image background */
+        .hero-parallax {
+            /* ACTION REQUIRED: 
+              Place your background photo at this exact path: 'media/background/background.jpg'
+            */
+            background-image: url('media/background/background.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Key for parallax */
+            height: 400px; /* Or adjust as needed */
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Changed to flex-end for right alignment */
+            text-align: center; /* Text alignment within its own block */
+            color: white;
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.5rem; /* Rounded corners */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .hero-parallax::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(253,164,175,0.4), rgba(219,39,119,0.4)); /* Reduced opacity for more visibility */
+            z-index: 1;
+        }
+        .hero-parallax .content {
+            position: relative;
+            z-index: 2;
+            padding: 2rem;
+            text-align: right; /* Aligned content text to the right */
+            max-width: 65%; /* Shrunk max-width to shift more right */
+            margin-left: auto; /* Push content to the right */
+        }
+
+        /* Small heart animation */
+        .animated-heart {
+            display: inline-block;
+            animation: pulse-heart 1.5s infinite ease-in-out;
+        }
+        @keyframes pulse-heart {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Styled scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 50px;
+            border: 2px solid #be185d;
+            border-radius: 20px;
+            z-index: 50;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            animation: bounce-scroll 2s infinite;
+            background-color: rgba(255,255,255,0.7);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .scroll-indicator::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background-color: #be185d;
+            border-radius: 50%;
+            margin-top: 8px;
+            animation: scroll-dot 2s infinite;
+        }
+        @keyframes bounce-scroll {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-2px);
+            }
+        }
+        @keyframes scroll-dot {
+            0% { margin-top: 8px; opacity: 1; }
+            50% { margin-top: 20px; opacity: 0; }
+            100% { margin-top: 8px; opacity: 1; }
+        }
+
+        /* Party Popper Styles */
+        .popper-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 101; /* Above confetti */
+        }
+        .popper {
+            position: absolute;
+            width: 50px; /* SMALLER popper */
+            height: 50px; /* SMALLER popper */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="25" y="45" width="50" height="55" fill="%23f472b6" rx="8"/><path d="M40 45 L60 45 L50 20 Z" fill="%23db2777"/><circle cx="50" cy="45" r="25" fill="%23ec4899"/></svg>'); /* More detailed SVG popper */
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transform: var(--transform-start);
+            animation: popIn 0.3s ease-out forwards, popperRecoil 0.3s 0.3s ease-in-out forwards;
+            /* Position is set by JS */
+        }
+        
+        @keyframes popIn {
+            0% { opacity: 0; transform: var(--transform-start); }
+            60% { opacity: 1; transform: var(--transform-end) scale(1.1); } /* Overshoot */
+            100% { opacity: 1; transform: var(--transform-end) scale(1); }
+        }
+        @keyframes popperRecoil {
+            0% { transform: var(--transform-end) scale(1); }
+            50% { transform: var(--transform-end) scale(0.9); }
+            100% { transform: var(--transform-end) scale(0.8); opacity: 0; } /* Fade out after recoil */
+        }
+
+        /* Combined Random Photo & Quote Styles */
+        #randomContentContainer {
+            min-height: 350px; /* Give space for photo & quote */
+        }
+        #randomPhotoImg {
+            transition: opacity 0.5s ease-in-out;
+            opacity: 0;
+            max-height: 400px; /* Adjust if needed */
+        }
+        #randomPhotoImg.visible {
+            opacity: 1;
+        }
+        #randomQuoteText {
+            transition: opacity 0.5s ease-in-out 0.2s, transform 0.3s ease-in-out 0.2s; /* Delay quote fade-in */
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        #randomQuoteText.visible {
+            opacity: 1;
+            transform: translateY(0px);
+        }
+
+        /* Music Button Styles */
+        #musicButton {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(3px);
+            border: 2px solid #be185d;
+            color: #be185d;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            transition: background-color 0.3s, color 0.3s;
+        }
+         #musicButton:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+         }
+        #musicButton svg {
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Scroll Indicator --><div class="scroll-indicator" id="scrollIndicator"></div>
+
+    <!-- Container for all content --><div class="max-w-4xl mx-auto p-4 md:p-8">
+
+        <!-- Hero Section with Parallax Background --><header class="hero-parallax rounded-2xl shadow-xl fade-in overflow-hidden">
+            <div class="content">
+                <h1 class="font-fancy text-4xl md:text-6xl font-bold text-white mb-4">
+                    <!-- 
+                      REPLACE THIS: Change "[Name]" to your girlfriend's name!
+                    -->Happy Birthday, Tiyasa! <span class="animated-heart">💖</span>
+                </h1>
+                <p class="mt-4 text-lg md:text-xl text-pink-100">
+                    <!-- 
+                      REPLACE THIS: Add your own short, sweet message.
+                    -->To my favorite person in the whole world, celebrating you today!
+                </p>
+            </div>
+        </header>
+
+        <!-- Interactive Cake Section (Now more compact) --><section class="my-12 py-4 px-4 sm:px-6 bg-pink-100/70 backdrop-blur-sm rounded-2xl shadow-xl fade-in delay-1 text-center">
+            <h2 class="font-fancy text-2xl md:text-3xl font-bold text-rose-700 mb-4">
+                Make a Wish!
+            </h2>
+            
+            <!-- New SVG Cake Container --><div class="cake-svg-container" id="cakeContainer">
+                <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <!-- Gradients for cake and icing --><linearGradient id="cakeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#f472b6"/>
+                            <stop offset="100%" style="stop-color:#db2777"/>
+                        </linearGradient>
+                        <linearGradient id="icingGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#fff"/>
+                            <stop offset="100%" style="stop-color:#fce4ec"/>
+                        </linearGradient>
+                        <!-- Gradient for flame --><radialGradient id="flameGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                            <stop offset="0%" style="stop-color:rgb(255,255,0);stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:rgb(255,165,0);stop-opacity:0.8" />
+                            <stop offset="100%" style="stop-color:rgb(255,140,0);stop-opacity:0" />
+                        </radialGradient>
+                        <!-- Shadow filter for depth --><filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+                            <feOffset dx="2" dy="4" result="offsetblur"/>
+                            <feComponentTransfer>
+                                <feFuncA type="linear" slope="0.5"/>
+                            </feComponentTransfer>
+                            <feMerge> 
+                                <feMergeNode/>
+                                <feMergeNode in="SourceGraphic"/> 
+                            </feMerge>
+                        </filter>
+                    </defs>
+
+                    <!-- Cake Stand --><path d="M 80 275 H 220 L 210 260 H 90 Z" fill="#f0f0f0" filter="url(#dropShadow)" />
+                    <rect x="130" y="245" width="40" height="15" fill="#f0f0f0" />
+                    <ellipse cx="150" cy="245" rx="50" ry="10" fill="#e0e0e0" />
+
+                    <!-- Bottom Tier --><ellipse cx="150" cy="235" rx="80" ry="25" fill="url(#cakeGradient)" filter="url(#dropShadow)" />
+                    <rect x="70" y="185" width="160" height="50" fill="url(#cakeGradient)" />
+                    <ellipse cx="150" cy="185" rx="80" ry="25" fill="url(#cakeGradient)" />
+                    <path d="M 70 185 C 70 210, 230 210, 230 185" fill="#f472b6" />
+                    
+                    <!-- Icing Drips (Bottom) --><path d="M 70 185 
+                             Q 85 200, 100 185
+                             Q 115 200, 130 185
+                             Q 145 200, 160 185
+                             Q 175 200, 190 185
+                             Q 205 200, 220 185
+                             Q 235 200, 230 185 Z" fill="url(#icingGradient)" />
+                    
+                    <!-- Top Tier --><ellipse cx="150" cy="170" rx="60" ry="20" fill="url(#cakeGradient)" filter="url(#dropShadow)" />
+                    <rect x="90" y="130" width="120" height="40" fill="url(#cakeGradient)" />
+                    <ellipse cx="150" cy="130" rx="60" ry="20" fill="url(#cakeGradient)" />
+                    <path d="M 90 130 C 90 150, 210 150, 210 130" fill="#f472b6" />
+                    
+                    <!-- Icing Drips (Top) --><path d="M 90 130 
+                             Q 105 145, 120 130
+                             Q 135 145, 150 130
+                             Q 165 145, 180 130
+                             Q 195 145, 210 130 Z" fill="url(#icingGradient)" />
+                    
+                    <!-- Cherries/Toppings --><circle cx="150" cy="120" r="5" fill="#d90429" />
+                    <circle cx="150" cy="119" r="1" fill="white" fill-opacity="0.7" />
+                    <circle cx="120" cy="122" r="5" fill="#d90429" />
+                    <circle cx="120" cy="121" r="1" fill="white" fill-opacity="0.7" />
+                    <circle cx="180" cy="122" r="5" fill="#d90429" />
+                    <circle cx="180" cy="121" r="1" fill="white" fill-opacity="0.7" />
+
+                    <!-- Candle --><rect x="146" y="80" width="8" height="30" fill="#fff" rx="2" ry="2" stroke="#e0e0e0" stroke-width="1" />
+                    <rect x="149" y="75" width="2" height="5" fill="#666" />
+                    
+                    <!-- Flame --><path d="M150 75 Q155 65 150 55 Q145 65 150 75 Z" id="candleFlame" class="candle-flame"/>
+                </svg>
+            </div>
+            
+            <!-- NEW "Click Me" Message --><p class="mt-2 text-md text-rose-600 italic">Click the cake to make a wish!</p>
+            
+            <p id="wishMessage" class="mt-2 text-lg text-rose-600 font-semibold transition-opacity duration-500 opacity-0">
+                You made your wish! Hope it comes true! ✨
+            </p>
+        </section>
+
+        <!-- Reasons I Love You Section --><section class="my-12 p-8 bg-pink-100/70 backdrop-blur-sm rounded-2xl shadow-xl fade-in delay-2">
+            <h2 class="font-fancy text-3xl md:text-4xl font-bold text-center text-rose-700 mb-6">
+                A Few Reasons Why I Love You
+            </h2>
+            <ul class="list-none space-y-3 text-lg text-rose-800">
+                <!-- 
+                  REPLACE THESE: Change these list items to your own reasons.
+                  You can add or remove items by copying/deleting the <li>...</li> lines.
+                --><li class="p-3 bg-pink-50/50 rounded-lg flex items-center fade-in-item delay-1 transition-all duration-300 hover:shadow-lg hover:bg-pink-50 hover:transform hover:-translate-y-1">
+                    <span class="mr-3 text-rose-500">💕</span> Your infectious smile
+                </li>
+                <li class="p-3 bg-pink-50/50 rounded-lg flex items-center fade-in-item delay-2 transition-all duration-300 hover:shadow-lg hover:bg-pink-50 hover:transform hover:-translate-y-1">
+                    <span class="mr-3 text-rose-500">💕</span> The kindness in your heart
+                </li>
+                <li class="p-3 bg-pink-50/50 rounded-lg flex items-center fade-in-item delay-3 transition-all duration-300 hover:shadow-lg hover:bg-pink-50 hover:transform hover:-translate-y-1">
+                    <span class="mr-3 text-rose-500">💕</span> How you always make me feel loved
+                </li>
+                <li class="p-3 bg-pink-50/50 rounded-lg flex items-center fade-in-item delay-4 transition-all duration-300 hover:shadow-lg hover:bg-pink-50 hover:transform hover:-translate-y-1">
+                    <span class="mr-3 text-rose-500">💕</span> Our adventurous dates
+                </li>
+                 <li class="p-3 bg-pink-50/50 rounded-lg flex items-center fade-in-item delay-5 transition-all duration-300 hover:shadow-lg hover:bg-pink-50 hover:transform hover:-translate-y-1">
+                    <span class="mr-3 text-rose-500">💕</span> And do you think there are only a few reasons? Buddhu there are countless reasons more
+                </li>
+            </ul>
+        </section>
+
+        <!-- Photo Gallery Section --><section class="my-12 fade-in delay-3">
+            <h2 class="font-fancy text-3xl md:text-4xl font-bold text-center text-rose-700 mb-6">
+                Our Beautiful Memories
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <!-- 
+                  ACTION REQUIRED: 
+                  1. Place your memory photos in the 'media/memories/' folder.
+                  2. Update the 'src' path for each image (e.g., 'media/memories/memory1.jpg').
+                  3. Update the 'alt' text with your caption.
+                --><div class="rounded-lg overflow-hidden shadow-lg transform transition-transform hover:scale-105 hover:shadow-2xl">
+                    <img class="gallery-img cursor-pointer w-full h-full object-cover" 
+                         src="media/memories/memory1.jpg" 
+                         onerror="this.src='https://placehold.co/600x600/fbcfe8/be185d?text=Your+Photo+1';"
+                         alt="Our romantic picnic in the park.">
+                </div>
+                <div class="rounded-lg overflow-hidden shadow-lg transform transition-transform hover:scale-105 hover:shadow-2xl">
+                    <img class="gallery-img cursor-pointer w-full h-full object-cover" 
+                         src="media/memories/memory2.jpg" 
+                         onerror="this.src='https://placehold.co/600x600/fbcfe8/be185d?text=Your+Photo+2';"
+                         alt="That amazing sunset we watched together.">
+                </div>
+                <div class="rounded-lg overflow-hidden shadow-lg transform transition-transform hover:scale-105 hover:shadow-2xl">
+                    <img class="gallery-img cursor-pointer w-full h-full object-cover" 
+                         src="media/memories/memory3.jpg" 
+                         onerror="this.src='https://placehold.co/600x600/fbcfe8/be185d?text=Your+Photo+3';"
+                         alt="Laughing uncontrollably on our trip!">
+                </div>
+                <div class="rounded-lg overflow-hidden shadow-lg transform transition-transform hover:scale-105 hover:shadow-2xl">
+                    <img class="gallery-img cursor-pointer w-full h-full object-cover" 
+                         src="media/memories/memory4.jpg" 
+                         onerror="this.src='https://placehold.co/600x600/fbcfe8/be185d?text=Your+Photo+4';"
+                         alt="Cozy movie night at home.">
+                </div>
+                <div class="rounded-lg overflow-hidden shadow-lg transform transition-transform hover:scale-105 hover:shadow-2xl">
+                    <img class="gallery-img cursor-pointer w-full h-full object-cover" 
+                         src="media/memories/memory5.jpg" 
+                         onerror="this.src='https://placehold.co/600x600/fbcfe8/be185d?text=Your+Photo+5';"
+                         alt="Our favorite cafe moment.">
+                </div>
+                <div class="rounded-lg overflow-hidden shadow-lg transform transition-transform hover:scale-105 hover:shadow-2xl">
+                    <img class="gallery-img cursor-pointer w-full h-full object-cover" 
+                         src="media/memories/memory6.jpg" 
+                         onerror="this.src='https://placehold.co/600x600/fbcfe8/be185d?text=Your+Photo+6';"
+                         alt="Another cherished memory.">
+                </div>
+            </div>
+        </section>
+        
+        <!-- The Modal (Photo Gallery Lightbox) --><div id="galleryModal" class="modal">
+            <span class="modal-close" id="modalClose">&times;</span>
+            <img class="modal-content" id="modalImg">
+            <div id="modalCaption" class="modal-caption"></div>
+        </div>
+
+        <!-- REVISED: Random Photo & Quote Section --><section class="my-12 p-8 bg-pink-100/70 backdrop-blur-sm rounded-2xl shadow-xl fade-in delay-4 text-center">
+            <h2 class="font-fancy text-3xl md:text-4xl font-bold text-center text-rose-700 mb-6">
+                A Surprise For You!
+            </h2>
+            <button id="randomContentButton" class="bg-rose-500 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition-all duration-300 hover:bg-rose-600 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-rose-400 focus:ring-opacity-75">
+                Click for a Memory & Message 💖
+            </button>
+            <div id="randomContentContainer" class="mt-6">
+                <img id="randomPhotoImg" src="" alt="A surprise memory" class="w-full max-w-lg mx-auto rounded-lg shadow-xl mb-4"
+                     onerror="this.src='https://placehold.co/800x600/fbcfe8/be185d?text=Surprise+Photo!'; this.classList.add('visible');">
+                <p id="randomQuoteText" class="text-xl md:text-2xl text-rose-700 font-semibold italic"></p>
+            </div>
+        </section>
+
+        <!-- Personal Message Section --><section class="my-12 p-8 bg-pink-100/70 backdrop-blur-sm rounded-2xl shadow-xl fade-in delay-5">
+            <h2 class="font-fancy text-3xl md:text-4xl font-bold text-center text-rose-700 mb-6">
+                A Special Message Just For You
+            </h2>
+            <div class="text-lg text-rose-800 space-y-4 leading-relaxed">
+                <!-- 
+                  REPLACE THIS: Write your personal letter here.
+                  The <p> tags create new paragraphs.
+                --><p>
+                    My Dearest Mithi,
+                </p>
+                <p>
+                    Happy birthday, my love! Every year with you is a gift, and I wanted to create
+                    something truly special to celebrate you today. This website is filled with
+                    just a few of the many reasons why you mean the world to me.
+                </p>
+                <p>
+                    From your radiant smile that brightens my darkest days, to your unwavering
+                    strength and spirit, you inspire me in every way. I cherish every moment we
+                    spend together, from our quiet evenings to our wildest adventures.Of course. Here are a few heartfelt options that weave in the beautiful things you've said about her.
+                    Happy Birthday to the love of my life. Before you, I don't think I truly understood
+                     what it meant to feel complete. You walked into my world and it was like the sun 
+                     breaking through the clouds, healing parts of my soul I didn't even know were 
+                     aching. You gave my life a new direction, a brighter purpose, and a meaning I
+                      never could have found on my own. To me, you are like Lakshmi—a true goddess
+                       who has blessed my life with unimaginable fortune, not of wealth, but of pure
+                        happiness, luck, and endless love. Today, we celebrate the incredible day you
+                         were born. I love you more than words can say.
+                </p>
+                <p>
+                    I hope your birthday is as wonderful as you are, filled with joy, laughter,
+                    and everything your heart desires. Thank you for being you, for your love,
+                    and for making my life so incredibly beautiful.
+                </p>
+                <p class="font-bold text-right mt-6">
+                    With all my love, now and always, <br>
+                    Deepan <span class="animated-heart">❤️</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- Footer --><footer class="text-center py-8 text-rose-600 fade-in delay-6">
+            <!-- 
+              REPLACE THIS: Change "[Your Name]" to your name.
+            --><p>Made with an overflowing love </p>
+        </footer>
+
+    </div>
+
+    <!-- Music Player --><audio id="birthdaySong" loop>
+        <!-- ACTION REQUIRED: Place your birthday song in 'media/' and name it 'birthday_song.mp3' or update the src -->
+        <source src="media/birthday_song.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Music Control Button --><button id="musicButton">
+        <!-- Play Icon -->
+        <svg id="playIcon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+            <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+        </svg>
+        <!-- Pause Icon (Initially hidden) -->
+        <svg id="pauseIcon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" style="display: none;">
+             <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/>
+        </svg>
+    </button>
+
+    <script>
+        // --- Confetti Animation ---
+        function createConfetti(x, y, count = 75) { 
+            const confettiContainer = document.createElement('div');
+            confettiContainer.classList.add('confetti');
+            document.body.appendChild(confettiContainer);
+
+            for (let i = 0; i < count; i++) { 
+                const piece = document.createElement('div');
+                piece.classList.add('confetti-piece');
+                confettiContainer.appendChild(piece);
+
+                const angle = (Math.random() - 0.5) * Math.PI; 
+                const velocity = 40 + Math.random() * 40; 
+                const duration = 3 + Math.random() * 2; 
+                const delay = Math.random() * 0.5; 
+
+                const endX = x + Math.cos(angle) * velocity * 10; 
+                const endY = y + Math.sin(angle) * velocity * 10 + (Math.random() * 100); 
+
+                piece.style.setProperty('--x-start', `${x}px`);
+                piece.style.setProperty('--y-start', `${y}px`);
+                piece.style.setProperty('--x-end', `${endX}px`);
+                piece.style.setProperty('--y-end', `${endY + 300}px`); 
+                piece.style.setProperty('--rot-start', `${Math.random() * 360}deg`);
+                piece.style.setProperty('--rot-end', `${Math.random() * 720 + 360}deg`); 
+                piece.style.animationDuration = `${duration}s`;
+                piece.style.animationDelay = `${delay}s`;
+                piece.style.left = `${x}px`;
+                piece.style.top = `${y}px`;
+            }
+
+            setTimeout(() => {
+                confettiContainer.remove();
+            }, 5000); 
+        }
+
+        // --- Party Popper Animation ---
+        function createPartyPoppers() {
+            const cakeRect = document.getElementById('cakeContainer').getBoundingClientRect();
+            const scrollY = window.scrollY; // Get current scroll position
+
+            const popperContainer = document.createElement('div');
+            popperContainer.classList.add('popper-container');
+            document.body.appendChild(popperContainer);
+
+            // Left Poppers (2 of them)
+            const popperLeft1 = document.createElement('div');
+            popperLeft1.classList.add('popper');
+            popperLeft1.style.top = `${cakeRect.top + scrollY + cakeRect.height * 0.4}px`; // Slightly higher
+            popperLeft1.style.left = `${cakeRect.left - 25}px`; 
+            popperLeft1.style.setProperty('--transform-start', 'translateX(-100%) rotate(-45deg) scale(0.5)');
+            popperLeft1.style.setProperty('--transform-end', 'translateX(0) rotate(-15deg) scale(1)');
+            popperContainer.appendChild(popperLeft1);
+
+            const popperLeft2 = document.createElement('div');
+            popperLeft2.classList.add('popper');
+            popperLeft2.style.top = `${cakeRect.top + scrollY + cakeRect.height * 0.6}px`; // Slightly lower
+            popperLeft2.style.left = `${cakeRect.left - 20}px`; 
+            popperLeft2.style.setProperty('--transform-start', 'translateX(-100%) rotate(-30deg) scale(0.5)');
+            popperLeft2.style.setProperty('--transform-end', 'translateX(0) rotate(-5deg) scale(1)');
+            popperLeft2.style.animationDelay = '0.1s'; // Slight delay for second popper
+            popperContainer.appendChild(popperLeft2);
+
+            // Right Popper
+            const popperRight = document.createElement('div');
+            popperRight.classList.add('popper');
+            popperRight.style.top = `${cakeRect.top + scrollY + cakeRect.height * 0.5}px`; 
+            popperRight.style.left = `${cakeRect.right - 25}px`; // Accounting for popper width
+            popperRight.style.setProperty('--transform-start', 'translateX(100%) rotate(45deg) scale(0.5)');
+            popperRight.style.setProperty('--transform-end', 'translateX(0) rotate(15deg) scale(1)');
+            popperContainer.appendChild(popperRight);
+
+            // Trigger confetti bursts from popper locations
+            setTimeout(() => {
+                const rectLeft1 = popperLeft1.getBoundingClientRect();
+                createConfetti(rectLeft1.left + rectLeft1.width / 2, rectLeft1.top + rectLeft1.height / 2, 80); // Slightly less confetti per popper, but more poppers
+                
+                const rectLeft2 = popperLeft2.getBoundingClientRect();
+                createConfetti(rectLeft2.left + rectLeft2.width / 2, rectLeft2.top + rectLeft2.height / 2, 80); 
+
+                const rectRight = popperRight.getBoundingClientRect();
+                createConfetti(rectRight.left + rectRight.width / 2, rectRight.top + rectRight.height / 2, 80); 
+            }, 200); 
+
+            // Remove poppers after animation
+            setTimeout(() => {
+                popperContainer.remove();
+            }, 1000); 
+        }
+
+
+        // --- Interactive Cake & Candle ---
+        (function() {
+            const cakeContainer = document.getElementById('cakeContainer');
+            const candleFlame = document.getElementById('candleFlame');
+            const wishMessage = document.getElementById('wishMessage');
+            let isCandleLit = true;
+
+            if (cakeContainer && candleFlame) {
+                cakeContainer.addEventListener('click', function(event) {
+                    if (isCandleLit) {
+                        candleFlame.classList.add('extinguished');
+                        wishMessage.classList.add('opacity-100');
+                        isCandleLit = false;
+
+                        // Trigger party poppers and confetti
+                        createPartyPoppers();
+
+                        // Optional: Relight the candle after some time
+                        setTimeout(() => {
+                            candleFlame.classList.remove('extinguished');
+                            wishMessage.classList.remove('opacity-100');
+                            isCandleLit = true;
+                        }, 5000); // Relight after 5 seconds
+                    }
+                });
+            }
+        })();
+
+        // --- Photo Gallery Modal ---
+        (function() {
+            const modal = document.getElementById("galleryModal");
+            const modalImg = document.getElementById("modalImg");
+            const modalCaption = document.getElementById("modalCaption");
+            const closeBtn = document.getElementById("modalClose");
+            const galleryImages = document.querySelectorAll(".gallery-img");
+
+            if(modal) {
+                galleryImages.forEach(img => {
+                    img.onclick = function() {
+                        modal.style.display = "block";
+                        modalImg.src = this.src;
+                        modalCaption.innerHTML = this.alt;
+                    }
+                });
+
+                // Close the modal
+                const closeModal = () => {
+                    modal.style.display = "none";
+                }
+                
+                closeBtn.onclick = closeModal;
+                
+                // Close when clicking outside the image
+                modal.onclick = function(e) {
+                    if (e.target === modal) {
+                        closeModal();
+                    }
+                }
+            }
+        })();
+
+        // --- Random Photo & Quote Logic ---
+        (function() {
+            // --- Random Photos Setup ---
+            const surprisePhotos = [];
+            for (let i = 1; i <= 50; i++) {
+                surprisePhotos.push({
+                    src: 'media/random/random' + i + '.jpg',
+                    // Alt text is still useful for accessibility, even if not displayed
+                    alt: 'Surprise Memory Photo ' + i 
+                });
+            }
+
+            // --- Romantic Quotes Setup ---
+             const romanticQuotes = [
+                "You are my today and all of my tomorrows.",
+                "Your smile is the most beautiful thing I've ever seen.",
+                "I fall in love with you more and more every single day.",
+                "Being with you is my favorite adventure.",
+                "You make my heart smile.",
+                "You are the best thing that has ever happened to me.",
+                "My favorite place in the world is right next to you.",
+                "I love you more than words can say.",
+                "You're not just my love, you're my best friend.",
+                "Every moment with you is a treasure.",
+                "You are my sunshine on a cloudy day.",
+                "I love your laugh. It's my favorite sound.",
+                "You are beautiful inside and out.",
+                "I'm so lucky to have you in my life.",
+                "You make me a better person.",
+                "My love for you is a journey, starting at forever and ending at never.",
+                "You're the reason I believe in love.",
+                "I just want to make you as happy as you make me.",
+                "Thinking of you is my favorite part of the day.",
+                "You're my dream come true.",
+                "Your kindness is a balm to my soul.",
+                "I love the way you look at me.",
+                "Every love story is beautiful, but ours is my favorite.",
+                "You are the light of my life.",
+                "With you, I am home.",
+                "I choose you. And I'll choose you, over and over.",
+                "You have the most beautiful soul.",
+                "I love doing life with you.",
+                "You are my greatest blessing.",
+                "My heart is, and always will be, yours.",
+                "Just seeing your face brightens my day.",
+                "You are my person. Forever.",
+                "The world is a better place with you in it.",
+                "I love your passion and your spirit.",
+                "I am so proud of the person you are.",
+                "Waking up next to you is the best part of my day.",
+                "You inspire me in ways you'll never know.",
+                "I'd be lost without you.",
+                "You are more than I ever dreamed of.",
+                "I will always be here for you.",
+                "You are my greatest adventure.",
+                "Your hug is my favorite safe place.",
+                "I love the way your mind works.",
+                "You're the one I've waited for.",
+                "Life with you is just... better.",
+                "You are my anchor.",
+                "My heart skips a beat when you smile at me.",
+                "You are my calm in the storm.",
+                "I love you endlessly.",
+                "You are perfect for me." // That's 50!
+            ];
+
+            const button = document.getElementById('randomContentButton');
+            const img = document.getElementById('randomPhotoImg');
+            const quoteText = document.getElementById('randomQuoteText');
+            let lastPhotoIndex = -1; 
+            let lastQuoteIndex = -1;
+
+            if (button && img && quoteText && surprisePhotos.length > 0 && romanticQuotes.length > 0) {
+                button.addEventListener('click', function() {
+                    // --- Get Random Photo ---
+                    let newPhotoIndex;
+                    if (surprisePhotos.length > 1) {
+                        do {
+                            newPhotoIndex = Math.floor(Math.random() * surprisePhotos.length);
+                        } while (newPhotoIndex === lastPhotoIndex);
+                    } else {
+                        newPhotoIndex = 0; 
+                    }
+                    lastPhotoIndex = newPhotoIndex;
+                    const photo = surprisePhotos[newPhotoIndex];
+
+                    // --- Get Random Quote ---
+                    let newQuoteIndex;
+                     if (romanticQuotes.length > 1) {
+                        do {
+                            newQuoteIndex = Math.floor(Math.random() * romanticQuotes.length);
+                        } while (newQuoteIndex === lastQuoteIndex);
+                    } else {
+                        newQuoteIndex = 0; 
+                    }
+                    lastQuoteIndex = newQuoteIndex;
+                    const quote = romanticQuotes[newQuoteIndex];
+
+
+                    // --- Update UI ---
+                    img.classList.remove('visible');
+                    quoteText.classList.remove('visible');
+                    
+                    setTimeout(() => {
+                        // Update Photo
+                        img.src = photo.src;
+                        img.alt = photo.alt; // Keep alt text for accessibility
+                        img.classList.add('visible');
+                        
+                        // Update Quote (after image starts loading/fading)
+                         setTimeout(() => {
+                            quoteText.innerText = `"${quote}"`;
+                            quoteText.classList.add('visible');
+                        }, 200); // Slight delay for quote after image
+
+                    }, 300); // Initial delay for fade out
+                });
+            }
+        })();
+        
+        // --- Music Controls ---
+        (function() {
+            const musicButton = document.getElementById('musicButton');
+            const birthdaySong = document.getElementById('birthdaySong');
+            const playIcon = document.getElementById('playIcon');
+            const pauseIcon = document.getElementById('pauseIcon');
+
+            if (musicButton && birthdaySong && playIcon && pauseIcon) {
+                musicButton.addEventListener('click', function() {
+                    if (birthdaySong.paused) {
+                        birthdaySong.play();
+                        playIcon.style.display = 'none';
+                        pauseIcon.style.display = 'block';
+                    } else {
+                        birthdaySong.pause();
+                        playIcon.style.display = 'block';
+                        pauseIcon.style.display = 'none';
+                    }
+                });
+                
+                // Optional: Try to play on first interaction anywhere
+                // document.body.addEventListener('click', function playMusicOnce() {
+                //     if (birthdaySong.paused) {
+                //         birthdaySong.play().then(() => {
+                //              playIcon.style.display = 'none';
+                //              pauseIcon.style.display = 'block';
+                //         }).catch(error => {
+                //             // Autoplay was prevented. User needs to click button.
+                //             console.log("Autoplay prevented:", error);
+                //         });
+                //     }
+                //      // Remove this listener after first attempt
+                //     document.body.removeEventListener('click', playMusicOnce);
+                // }, { once: true });
+            }
+        })();
+
+        // --- Scroll Indicator Visibility ---
+        (function() {
+            const scrollIndicator = document.getElementById('scrollIndicator');
+            if (scrollIndicator) {
+                const toggleScrollIndicator = () => {
+                    if (window.scrollY > 100) { 
+                        scrollIndicator.style.opacity = '0';
+                        scrollIndicator.style.pointerEvents = 'none';
+                    } else {
+                        scrollIndicator.style.opacity = '1';
+                        scrollIndicator.style.pointerEvents = 'auto';
+                    }
+                };
+                window.addEventListener('scroll', toggleScrollIndicator);
+                toggleScrollIndicator(); 
+            }
+        })();
+    </script>
+
+</body>
+</html>
+
